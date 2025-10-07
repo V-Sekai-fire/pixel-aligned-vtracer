@@ -1,6 +1,7 @@
 name: Build
 
-permissions: {}
+permissions:
+  contents: write
 
 on:
   pull_request: {}
@@ -65,13 +66,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vtrace-pixel-windows
+      - name: Archive linux binary
+        run: cd vtrace-pixel-linux && zip ../vtrace-pixel-linux.zip vtrace-pixel
+      - name: Archive macos binary
+        run: cd vtrace-pixel-macos && zip ../vtrace-pixel-macos.zip vtrace-pixel
+      - name: Archive windows binary
+        run: cd vtrace-pixel-windows && zip ../vtrace-pixel-windows.zip vtrace-pixel.exe
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: ${{ contains(github.ref, '-') }}
           files: |
-            vtrace-pixel-linux
-            vtrace-pixel-macos
-            vtrace-pixel-windows
+            vtrace-pixel-linux.zip
+            vtrace-pixel-macos.zip
+            vtrace-pixel-windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
