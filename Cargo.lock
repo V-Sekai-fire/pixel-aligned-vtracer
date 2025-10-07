@@ -1106,8 +1106,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "vtracer"
-version = "0.6.4"
+name = "vtracer-pixel"
+version = "0.6.4-pixel"
 dependencies = [
  "cbindgen",
  "clap 2.34.0",

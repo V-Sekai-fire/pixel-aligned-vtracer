@@ -23,8 +23,8 @@ jobs:
       - run: cargo build --release
       - uses: actions/upload-artifact@v4
         with:
-          name: vtrace-pixel-linux
-          path: target/release/vtrace-pixel
+          name: vtracer-pixel-linux
+          path: target/release/vtracer-pixel
 
   build-macos:
     runs-on: macos-latest
@@ -34,8 +34,8 @@ jobs:
       - run: cargo build --release
       - uses: actions/upload-artifact@v4
         with:
-          name: vtrace-pixel-macos
-          path: target/release/vtrace-pixel
+          name: vtracer-pixel-macos
+          path: target/release/vtracer-pixel
 
   build-windows:
     runs-on: windows-latest
@@ -45,8 +45,8 @@ jobs:
       - run: cargo build --release
       - uses: actions/upload-artifact@v4
         with:
-          name: vtrace-pixel-windows
-          path: target/release/vtrace-pixel.exe
+          name: vtracer-pixel-windows
+          path: target/release/vtracer-pixel.exe
 
   release:
     needs: [build-linux, build-macos, build-windows]
@@ -57,31 +57,31 @@ jobs:
       - name: Download linux artifact
         uses: actions/download-artifact@v4
         with:
-          name: vtrace-pixel-linux
-          path: vtrace-pixel-linux
+          name: vtracer-pixel-linux
+          path: vtracer-pixel-linux
       - name: Download macos artifact
         uses: actions/download-artifact@v4
         with:
-          name: vtrace-pixel-macos
-          path: vtrace-pixel-macos
+          name: vtracer-pixel-macos
+          path: vtracer-pixel-macos
       - name: Download windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: vtrace-pixel-windows
-          path: vtrace-pixel-windows
+          name: vtracer-pixel-windows
+          path: vtracer-pixel-windows
       - name: Archive linux binary
-        run: cd vtrace-pixel-linux && zip ../vtrace-pixel-linux.zip vtrace-pixel
+        run: cd vtracer-pixel-linux && zip ../vtracer-pixel-linux.zip vtracer-pixel
       - name: Archive macos binary
-        run: cd vtrace-pixel-macos && zip ../vtrace-pixel-macos.zip vtrace-pixel
+        run: cd vtracer-pixel-macos && zip ../vtracer-pixel-macos.zip vtracer-pixel
       - name: Archive windows binary
-        run: cd vtrace-pixel-windows && zip ../vtrace-pixel-windows.zip vtrace-pixel.exe
+        run: cd vtracer-pixel-windows && zip ../vtracer-pixel-windows.zip vtracer-pixel.exe
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: ${{ contains(github.ref, '-') }}
           files: |
-            vtrace-pixel-linux.zip
-            vtrace-pixel-macos.zip
-            vtrace-pixel-windows.zip
+            vtracer-pixel-linux.zip
+            vtracer-pixel-macos.zip
+            vtracer-pixel-windows.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

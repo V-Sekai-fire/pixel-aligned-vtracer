@@ -1,5 +1,5 @@
 [package]
-name = "vtrace-pixel"
+name = "vtracer-pixel"
 version = "0.6.4-pixel"
 authors = ["Chris Tsang <chris.2y3@outlook.com>"]
 edition = "2021"
