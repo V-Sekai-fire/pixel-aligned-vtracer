@@ -58,14 +58,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vtrace-pixel-linux
+          path: vtrace-pixel-linux
       - name: Download macos artifact
         uses: actions/download-artifact@v4
         with:
           name: vtrace-pixel-macos
+          path: vtrace-pixel-macos
       - name: Download windows artifact
         uses: actions/download-artifact@v4
         with:
           name: vtrace-pixel-windows
+          path: vtrace-pixel-windows
       - name: Archive linux binary
         run: cd vtrace-pixel-linux && zip ../vtrace-pixel-linux.zip vtrace-pixel
       - name: Archive macos binary
