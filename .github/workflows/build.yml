@@ -1,0 +1,77 @@
+name: Build
+
+permissions: {}
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+
+env:
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup update
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vtrace-pixel-linux
+          path: target/release/vtrace-pixel
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup update
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vtrace-pixel-macos
+          path: target/release/vtrace-pixel
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup update
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vtrace-pixel-windows
+          path: target/release/vtrace-pixel.exe
+
+  release:
+    needs: [build-linux, build-macos, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vtrace-pixel-linux
+      - name: Download macos artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vtrace-pixel-macos
+      - name: Download windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vtrace-pixel-windows
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: ${{ contains(github.ref, '-') }}
+          files: |
+            vtrace-pixel-linux
+            vtrace-pixel-macos
+            vtrace-pixel-windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
