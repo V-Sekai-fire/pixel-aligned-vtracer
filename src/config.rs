@@ -60,16 +60,16 @@ impl Default for Config {
         Self {
             color_mode: ColorMode::Color,
             hierarchical: Hierarchical::Stacked,
-            mode: PathSimplifyMode::Spline,
-            filter_speckle: 4,
-            color_precision: 6,
-            layer_difference: 16,
-            corner_threshold: 60,
+            mode: PathSimplifyMode::None,
+            filter_speckle: 0,
+            color_precision: 8,
+            layer_difference: 0,
+            corner_threshold: 180,
             length_threshold: 4.0,
             splice_threshold: 45,
             max_iterations: 10,
             path_precision: Some(2),
-            keying_threshold: 0.2,
+            keying_threshold: 0.0,
         }
     }
 }
